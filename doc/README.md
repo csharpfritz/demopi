@@ -9,6 +9,14 @@ As part of a demo to show a complete interconnected .NET ecosystem from IoT to t
 - Docker-Compose
 - .NET 7 / ASP.NET Core / SignalR Core
 
+This combination allows our Raspberry Pi device to build from the cloud, take updates and restart the processes to present them automatically.  The process flow looks like this:
+
+  1. An update is committed to the GitHub repository for the `demopi` application
+  1. A GitHub action is triggered from the update and rebuilds the application
+  1. The GitHub action publishes an updated container image to an Azure Container Registry
+  1. A service called `watchtower` on the Raspberry Pi scans for an updated image and finds it in the Azure Container Registry
+  1. Watchtower downloads and redeploys the running image 
+
 ## Step 0: Configure an Azure Container Registry
 
 I already have one of these at `fritzregistry.azurecr.io`.  It was easy enough to configure and deploy with credentials required to access the content.
@@ -38,7 +46,10 @@ docker login
 ```
 
 This generated a `/home/.docker/config.json` file that will be used to login to my private Azure registry.
+
 ## Step 2: Configured Docker-compose
+
+Let's configure docker-compose, a tool that lets us submit several commands and configuration options at once for docker to run one or more containers.
 
 Installed prerequisites with:
 
@@ -55,6 +66,7 @@ sudo pip3 install docker-compose
 ```
 
 ## Step 3: Configure Watchtower
+
 [Watchtower](https://containrrr.dev/watchtower/) is a container that will watch other containers and gracefully update them when updates are available.  I grabbed the watchtower image for ARM devices using this command:
 
 ```bash
