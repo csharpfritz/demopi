@@ -9,6 +9,7 @@ COPY Fritz.DemoPi/*.csproj .
 RUN dotnet restore -a $TARGETARCH
 
 # copy everything else and build app
+COPY .git/. .git/.
 COPY Fritz.DemoPi/. .
 RUN dotnet publish -a $TARGETARCH --no-restore -o /app
 

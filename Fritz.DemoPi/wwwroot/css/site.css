@@ -31,3 +31,7 @@ body {
 	font-size: 3em;
 }
 
+
+#cxn , #currentSHA {
+color: #999
+}
