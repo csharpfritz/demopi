@@ -29,7 +29,10 @@ body {
 
 #counter {
 	color: #FFF;
-	font-size: 3em;
+	font-size: 4em;
+  font-weight: bold;
+  color: lime;
+  text-decoration: underline;
 }
 
 
